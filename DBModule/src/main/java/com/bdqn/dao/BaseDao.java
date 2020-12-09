@@ -2,6 +2,7 @@ package com.bdqn.dao;
 
 
 import com.bdqn.util.DBUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,8 +11,15 @@ import java.sql.SQLException;
 
 public abstract class BaseDao {
     private Connection conn;
+    @Autowired
+    protected DBUtil dbUtil;
 
-    public BaseDao(Connection conn) {
+    public Connection getConn() {
+        return conn;
+    }
+
+    @Autowired
+    public void setConn(Connection conn) {
         this.conn = conn;
     }
 
@@ -31,7 +39,7 @@ public abstract class BaseDao {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }finally {
-            DBUtil.closeAll(null,pstmt,null);
+            dbUtil.closeAll(null,pstmt,null);
         }
 
         return  r;
